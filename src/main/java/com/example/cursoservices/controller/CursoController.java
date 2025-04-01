@@ -37,7 +37,7 @@ public class CursoController {
     @Operation(summary = "Obtener todos los cursos")
     @ApiResponse(responseCode = "200", description = "Lista de cursos obtenida exitosamente")
     public ResponseEntity<List<CursoResponse>> listarTodosLosCursos() {
-        List<CursoResponse> cursos = cursoService.listarTodosLosCursos();
+        List<CursoResponse> cursos = cursoService.listarCursos();
         return ResponseEntity.ok(cursos);
     }
 
@@ -48,7 +48,7 @@ public class CursoController {
     public ResponseEntity<CursoResponse> obtenerCursoPorId(
             @Parameter(description = "ID del curso a buscar")
             @PathVariable Long id) {
-        CursoResponse response = cursoService.obtenerCursoPorId(id);
+        CursoResponse response = cursoService.obtenerCurso(id);
         return ResponseEntity.ok(response);
     }
 
@@ -81,7 +81,7 @@ public class CursoController {
     @Operation(summary = "Obtener cursos activos")
     @ApiResponse(responseCode = "200", description = "Lista de cursos activos obtenida")
     public ResponseEntity<List<CursoResponse>> listarCursosActivos() {
-        List<CursoResponse> cursos = cursoService.listarTodosLosCursos()
+        List<CursoResponse> cursos = cursoService.listarCursos()
                 .stream()
                 .filter(CursoResponse::activo)
                 .toList();

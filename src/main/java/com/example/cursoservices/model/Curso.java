@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
 
 @Data
@@ -20,11 +19,11 @@ public class Curso {
     @Column(nullable = false)
     private String nombre;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 500)
     private String descripcion;
 
-    @Column(nullable = false)
-    private String docente;
+    @Column(name = "id_docente", nullable = false)
+    private Long idDocente;
 
     @Column(nullable = false)
     private Integer duracionHoras;
@@ -38,12 +37,15 @@ public class Curso {
     @Column(nullable = false)
     private String horario;
 
-    @Column(nullable = false)
-    private String requisitos;
+    @Column(name = "id_semestre", nullable = false)
+    private Long idSemestre;
 
     @Column(nullable = false)
-    private Boolean activo;
+    private Byte numeroCreditos;
 
     @Column(nullable = false)
+    private Boolean activo = true;
+
+    @Column(nullable = false, updatable = false)
     private LocalDate fechaCreacion = LocalDate.now();
 }

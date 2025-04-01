@@ -6,12 +6,13 @@ public record CursoResponse(
         Long id,
         String nombre,
         String descripcion,
-        String docente,
+        Long idDocente,
         Integer duracionHoras,
         String modalidad,
         Integer cuposDisponibles,
         String horario,
-        String requisitos,
+        Long idSemestre,
+        Byte numeroCreditos,
         Boolean activo,
         LocalDate fechaCreacion
 ) {}
