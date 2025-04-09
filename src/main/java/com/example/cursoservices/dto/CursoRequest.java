@@ -3,6 +3,8 @@ package com.example.cursoservices.dto;
 import jakarta.validation.constraints.*;
 
 public record CursoRequest(
+        Long id, // Nuevo campo para actualizaciones
+
         @NotBlank String nombre,
         @NotBlank @Size(max = 500) String descripcion,
         @NotNull Long idDocente,

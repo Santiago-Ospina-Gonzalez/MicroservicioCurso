@@ -6,6 +6,9 @@ import com.example.cursoservices.exception.ResourceNotFoundException;
 import com.example.cursoservices.model.Curso;
 import com.example.cursoservices.repository.CursoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,11 +58,11 @@ public class CursoService {
     }
 
     @Transactional
-    public CursoResponse actualizarCurso(Long id, CursoRequest request) {
+    public CursoResponse actualizarCurso(CursoRequest request) {
         validarDatosCurso(request);
 
-        Curso curso = cursoRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + id));
+        Curso curso = cursoRepository.findById(request.id())
+                .orElseThrow(() -> new ResourceNotFoundException("Curso no encontrado con ID: " + request.id()));
 
         curso.setNombre(request.nombre());
         curso.setDescripcion(request.descripcion());
@@ -97,7 +100,13 @@ public class CursoService {
                 .collect(Collectors.toList());
     }
 
-    // --- Métodos auxiliares ---
+    @Transactional(readOnly = true)
+    public Page<CursoResponse> listarCursosPaginados(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return cursoRepository.findAll(pageable)
+                .map(this::mapToResponse);
+    }
+
     private CursoResponse mapToResponse(Curso curso) {
         return new CursoResponse(
                 curso.getId(),
